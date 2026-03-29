@@ -1,0 +1,15 @@
+{
+  "name": "stylist-ai-backend",
+  "version": "2.0.0",
+  "description": "Stylist AI — Express backend with dataset recommendation + image generation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "generate": "node generate_dataset.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}

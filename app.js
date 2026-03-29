@@ -4,22 +4,22 @@
    ═══════════════════════════════════════════ */
 
 // ── DOM refs ──
-const dropArea       = document.getElementById('drop-area');
-const fileInput      = document.getElementById('file-input');
+const dropArea = document.getElementById('drop-area');
+const fileInput = document.getElementById('file-input');
 const previewWrapper = document.getElementById('preview-wrapper');
-const previewImg     = document.getElementById('preview-img');
-const previewRemove  = document.getElementById('preview-remove');
-const generateBtn    = document.getElementById('generate-btn');
-const occasionSel    = document.getElementById('occasion-select');
-const genderSel      = document.getElementById('gender-select');
-const ageSel         = document.getElementById('age-select');
-const styleSel       = document.getElementById('style-select');
-const seasonSel      = document.getElementById('season-select');
-const weatherSel     = document.getElementById('weather-select');
-const budgetSel      = document.getElementById('budget-select');
+const previewImg = document.getElementById('preview-img');
+const previewRemove = document.getElementById('preview-remove');
+const generateBtn = document.getElementById('generate-btn');
+const occasionSel = document.getElementById('occasion-select');
+const genderSel = document.getElementById('gender-select');
+const ageSel = document.getElementById('age-select');
+const styleSel = document.getElementById('style-select');
+const seasonSel = document.getElementById('season-select');
+const weatherSel = document.getElementById('weather-select');
+const budgetSel = document.getElementById('budget-select');
 const loadingOverlay = document.getElementById('loading-overlay');
-const loadingText    = document.getElementById('loading-text');
-const loadingBar     = document.getElementById('loading-bar');
+const loadingText = document.getElementById('loading-text');
+const loadingBar = document.getElementById('loading-bar');
 const resultsSection = document.getElementById('results-section');
 const savedSection = document.getElementById('saved-section');
 const visionGrid = document.getElementById('vision-grid');
@@ -475,13 +475,13 @@ generateBtn.addEventListener('click', async () => {
     // ── Step 2: Build filter payload from new controls ─
     updatePipeline('rules');
     const filters = {
-      gender:    genderSel.value,
+      gender: genderSel.value,
       age_group: ageSel.value,
-      occasion:  occasionSel.value,
-      style:     styleSel.value,
-      season:    seasonSel.value,
-      weather:   weatherSel.value,
-      budget:    budgetSel.value,
+      occasion: occasionSel.value,
+      style: styleSel.value,
+      season: seasonSel.value,
+      weather: weatherSel.value,
+      budget: budgetSel.value,
       body_type: visionData.body_type,
       skin_tone: visionData.skin_tone
     };
@@ -491,7 +491,7 @@ generateBtn.addEventListener('click', async () => {
     let outfit = null;
 
     try {
-      const res = await fetch('/recommend', {
+      const res = await fetch('https://stylist-ai-1.onrender.com /recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filters)
@@ -541,7 +541,7 @@ generateBtn.addEventListener('click', async () => {
    RENDER: Dataset Outfit Card
    ───────────────────────────────────────────── */
 function renderDatasetOutfit(outfit, filters) {
-  const o   = outfit.outfit;
+  const o = outfit.outfit;
   const colorBadges = (outfit.colors || []).map(c =>
     `<span class="color-badge" style="--c:${c}">${c}</span>`
   ).join('');
@@ -557,7 +557,7 @@ function renderDatasetOutfit(outfit, filters) {
   recommendationContainer.innerHTML = `
     <div class="outfit-card glass-card dataset-card">
       <div class="dataset-meta">
-        <span class="meta-chip">✨ ${outfit.style?.replace(/_/g,' ')}</span>
+        <span class="meta-chip">✨ ${outfit.style?.replace(/_/g, ' ')}</span>
         <span class="meta-chip">📅 ${outfit.occasion}</span>
         <span class="meta-chip">🌤️ ${outfit.season} · ${outfit.weather}</span>
         <span class="meta-chip">💸 ${budgetLabel[outfit.budget] || outfit.budget}</span>
@@ -566,10 +566,10 @@ function renderDatasetOutfit(outfit, filters) {
       <div class="outfit-section">
         <div class="outfit-section-title">👔 Complete Outfit</div>
         <div class="outfit-section-body dataset-outfit-grid">
-          ${o.top     ? `<div class="outfit-item"><span class="item-label">Top</span><span class="item-value">${o.top}</span></div>` : ''}
-          ${o.bottom  ? `<div class="outfit-item"><span class="item-label">Bottom</span><span class="item-value">${o.bottom}</span></div>` : ''}
-          ${o.layer   ? `<div class="outfit-item"><span class="item-label">Layer</span><span class="item-value">${o.layer}</span></div>` : ''}
-          ${o.footwear? `<div class="outfit-item"><span class="item-label">Footwear</span><span class="item-value">${o.footwear}</span></div>` : ''}
+          ${o.top ? `<div class="outfit-item"><span class="item-label">Top</span><span class="item-value">${o.top}</span></div>` : ''}
+          ${o.bottom ? `<div class="outfit-item"><span class="item-label">Bottom</span><span class="item-value">${o.bottom}</span></div>` : ''}
+          ${o.layer ? `<div class="outfit-item"><span class="item-label">Layer</span><span class="item-value">${o.layer}</span></div>` : ''}
+          ${o.footwear ? `<div class="outfit-item"><span class="item-label">Footwear</span><span class="item-value">${o.footwear}</span></div>` : ''}
           ${accessories ? `<div class="outfit-item" style="grid-column:1/-1"><span class="item-label">Accessories</span><span class="item-value">${accessories}</span></div>` : ''}
         </div>
       </div>
@@ -587,9 +587,9 @@ function renderDatasetOutfit(outfit, filters) {
       <div class="outfit-section">
         <div class="outfit-section-title">✅ Why It Works</div>
         <div class="outfit-section-body">
-          This <strong>${outfit.style?.replace(/_/g,' ')}</strong> look is curated for a
+          This <strong>${outfit.style?.replace(/_/g, ' ')}</strong> look is curated for a
           <strong>${outfit.body_type}</strong> build with <strong>${outfit.skin_tone}</strong> skin —
-          the ${(outfit.colors||[]).slice(0,2).join(' &amp; ')} palette naturally complements your tone.
+          the ${(outfit.colors || []).slice(0, 2).join(' &amp; ')} palette naturally complements your tone.
           Perfect for <strong>${outfit.occasion}</strong> in <strong>${outfit.season}</strong>
           ${outfit.weather} weather. Every piece is intentional, wearable, and within your
           <strong>${budgetLabel[outfit.budget] || outfit.budget}</strong> budget.
@@ -607,7 +607,7 @@ function buildPromptFromDataset(outfit, vision) {
   const subject = vision.gender === 'female'
     ? 'a stunning female fashion model'
     : 'a sophisticated male fashion model';
-  const colors  = (outfit.colors || []).join(', ');
+  const colors = (outfit.colors || []).join(', ');
   const accList = Array.isArray(o.accessories) ? o.accessories.join(', ') : o.accessories;
   const lighting = Math.random() > 0.5
     ? 'cinematic Rembrandt lighting, high contrast'
@@ -617,7 +617,7 @@ function buildPromptFromDataset(outfit, vision) {
     `WEARING: ${o.top}, ${o.bottom}${o.layer ? ', ' + o.layer : ''}. ` +
     `FOOTWEAR: ${o.footwear}. ACCESSORIES: ${accList}. ` +
     `COLOR PALETTE: ${colors}. ` +
-    `STYLE: ${outfit.style?.replace(/_/g,' ')} aesthetic, ${outfit.season} season. ` +
+    `STYLE: ${outfit.style?.replace(/_/g, ' ')} aesthetic, ${outfit.season} season. ` +
     `TECHNICAL: 85mm lens, 8k resolution, hyper-detailed textures, Vogue editorial, ${lighting}.`;
 }
 

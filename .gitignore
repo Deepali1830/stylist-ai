@@ -1,0 +1,7 @@
+node_modules/
+fashion_dataset.json
+package-lock.json
+*.log
+npm-debug.log*
+.env
+.DS_Store

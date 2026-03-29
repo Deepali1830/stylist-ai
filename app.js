@@ -478,6 +478,7 @@ generateBtn.addEventListener('click', async () => {
     // ── Step 1: Vision Analysis ──────────────────────
     const visionRaw = await visionAnalysis(uploadedBase64);
     const visionData = cleanJSON(visionRaw);
+    visionData.gender = genderSel.value; // Override default with user selection
     lastUserJSON = visionData;
     updatePipeline('vision');
 

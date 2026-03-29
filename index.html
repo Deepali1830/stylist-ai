@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="AI-powered fashion stylist that analyzes your body type and recommends personalized outfit ideas for any occasion." />
+  <title>Stylist AI — Fashion Advisor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <p class="loading-text" id="loading-text">Analyzing your style…</p>
+    <div class="loading-progress">
+      <div class="bar" id="loading-bar"></div>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-badge"><span class="dot"></span> Stylist Engine</div>
+      <h1>Your Personal <br />AI Fashion Stylist</h1>
+      <p>Upload your photo, choose your occasion, and let three specialist AI stylists craft the perfect look for you.
+      </p>
+    </header>
+
+    <!-- ── INPUT PANEL ── -->
+    <section class="glass-card input-panel" id="input-panel">
+
+
+      <!-- Upload -->
+      <div class="upload-zone control-group" style="grid-column:1/-1">
+        <label>Your Photo</label>
+        <div class="drop-area" id="drop-area">
+          <span class="upload-icon">📸</span>
+          <p class="upload-text">Drag &amp; drop or <span>browse</span></p>
+          <p class="upload-hint">JPG, PNG up to 10 MB</p>
+          <input type="file" id="file-input" accept="image/*" />
+        </div>
+        <div class="preview-wrapper" id="preview-wrapper">
+          <img class="preview-img" id="preview-img" alt="Uploaded preview" />
+          <button class="preview-remove" id="preview-remove" aria-label="Remove image">✕</button>
+        </div>
+      </div>
+
+      <!-- Occasion -->
+      <div class="control-group">
+        <label for="occasion-select">Occasion</label>
+        <select id="occasion-select">
+          <option value="casual">Casual</option>
+          <option value="office">Office / Work</option>
+          <option value="wedding">Wedding / Festive</option>
+          <option value="party">Party / Night Out</option>
+          <option value="date">Date Night</option>
+          <option value="travel">Travel / Vacation</option>
+          <option value="gym">Gym / Workout</option>
+        </select>
+      </div>
+
+      <!-- Gender -->
+      <div class="control-group">
+        <label for="gender-select">Gender</label>
+        <select id="gender-select">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <!-- Age Group -->
+      <div class="control-group">
+        <label for="age-select">Age Group</label>
+        <select id="age-select">
+          <option value="young_adult">Young Adult (18–25)</option>
+          <option value="adult">Adult (26–40)</option>
+          <option value="teen">Teen (13–17)</option>
+        </select>
+      </div>
+
+      <!-- Style -->
+      <div class="control-group">
+        <label for="style-select">Style</label>
+        <select id="style-select">
+          <option value="minimal">Minimal</option>
+          <option value="streetwear">Streetwear</option>
+          <option value="old_money">Old Money</option>
+          <option value="korean">Korean / K-Fashion</option>
+          <option value="y2k">Y2K / Retro</option>
+          <option value="formal">Formal</option>
+          <option value="business_casual">Business Casual</option>
+          <option value="vintage">Vintage</option>
+          <option value="luxury">Luxury</option>
+          <option value="sporty">Sporty</option>
+          <option value="grunge">Grunge</option>
+          <option value="soft_girl">Soft Girl</option>
+          <option value="dark_academia">Dark Academia</option>
+          <option value="light_academia">Light Academia</option>
+          <option value="techwear">Techwear</option>
+          <option value="cottagecore">Cottagecore</option>
+          <option value="ethnic_fusion">Ethnic Fusion</option>
+          <option value="traditional">Traditional / Ethnic</option>
+          <option value="bohemian">Bohemian</option>
+          <option value="athleisure">Athleisure</option>
+        </select>
+      </div>
+
+      <!-- Season -->
+      <div class="control-group">
+        <label for="season-select">Season</label>
+        <select id="season-select">
+          <option value="summer">Summer</option>
+          <option value="winter">Winter</option>
+          <option value="monsoon">Monsoon / Rainy</option>
+          <option value="autumn">Autumn / Spring</option>
+        </select>
+      </div>
+
+      <!-- Weather -->
+      <div class="control-group">
+        <label for="weather-select">Weather</label>
+        <select id="weather-select">
+          <option value="hot">Hot</option>
+          <option value="cold">Cold</option>
+          <option value="humid">Humid</option>
+          <option value="rainy">Rainy</option>
+        </select>
+      </div>
+
+      <!-- Budget -->
+      <div class="control-group">
+        <label for="budget-select">Budget Range</label>
+        <select id="budget-select">
+          <option value="medium">Medium (₹1,500 – ₹5,000)</option>
+          <option value="low">Low (Under ₹1,500)</option>
+          <option value="high">High (₹5,000+)</option>
+        </select>
+      </div>
+
+      <!-- Generate -->
+      <div class="control-group" style="grid-column:1/-1">
+        <button class="generate-btn" id="generate-btn" disabled>
+          <span class="btn-icon">✨</span> Generate My Outfit
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ── RESULTS ── -->
+    <section class="results-section" id="results-section">
+
+      <!-- Pipeline Bar -->
+      <div class="pipeline-bar" id="pipeline-bar">
+        <div class="pipeline-step done" data-step="upload"><span class="step-icon">📸</span> Upload</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step done" data-step="vision"><span class="step-icon">👁️</span> Vision AI</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step done" data-step="rules"><span class="step-icon">📚</span> Rules</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step done" data-step="stylists"><span class="step-icon">🧠</span> 3 Stylists</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step done" data-step="aggregate"><span class="step-icon">⭐</span> Aggregate</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step done" data-step="image"><span class="step-icon">🎨</span> Image Prompt</div>
+
+      </div>
+
+      <!-- Vision Card -->
+      <div class="glass-card vision-card">
+        <h2 class="section-title"><span class="icon">👁️</span> Vision Analysis</h2>
+        <div class="vision-grid" id="vision-grid">
+          <div class="skeleton-stat"></div>
+          <div class="skeleton-stat"></div>
+          <div class="skeleton-stat"></div>
+          <div class="skeleton-stat"></div>
+        </div>
+      </div>
+
+      <!-- Stylist Recommendation -->
+      <div class="glass-card recommendation-card" id="recommendation-card">
+        <h2 class="section-title"><span class="icon">✨</span> AI Stylist Selection</h2>
+        <div id="recommendation-container" class="recommendation-container">
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+
+
+
+
+      <!-- Image Prompt -->
+      <div class="glass-card image-prompt-card">
+        <h2 class="section-title"><span class="icon">🎨</span> Advanced: Visual Prompt</h2>
+        <pre class="prompt-text" id="prompt-text"></pre>
+        <button class="copy-prompt-btn" id="copy-prompt-btn">📋 Copy Prompt</button>
+        <button class="share-btn" id="share-btn" aria-label="Share this look">📤 Share</button>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback-bar">
+        <span>Was this recommendation helpful?</span>
+        <button class="feedback-btn" id="fb-like" data-feedback="like">👍 Like</button>
+        <button class="feedback-btn" id="fb-dislike" data-feedback="dislike">👎 Dislike</button>
+        <button class="save-look-btn" id="save-look-btn">⭐ Save Look</button>
+      </div>
+
+    </section>
+
+    <!-- ── SAVED LOOKS GALLERY ── -->
+    <section class="saved-section" id="saved-section">
+      <div class="saved-header">
+        <h2 class="section-title"><span class="icon">📜</span> Style Journal</h2>
+        <p class="saved-count" id="saved-count">0 looks saved</p>
+      </div>
+      <div class="saved-grid" id="saved-grid">
+        <!-- Filled by JS -->
+        <div class="empty-gallery">
+          <p>Your style journey starts here. Save your favorite looks!</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built with <span class="gold">♦</span> Stylist AI — Multi-Agent Fashion Engine</p>
+    </footer>
+
+  </div>
+
+  <!-- ── CHATBOT UI ── -->
+  <div class="chat-container">
+    <!-- FAB (Floating Action Button) -->
+    <button class="chat-fab" id="chat-fab" aria-label="Open Stylist Chat">
+      <span class="fab-icon">💬</span>
+      <span class="fab-label">Assistant</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="header-info">
+          <span class="header-status"></span>
+          <div>
+            <h3>Stylist Assistant</h3>
+            <p>Always online • Virtual expert</p>
+          </div>
+        </div>
+        <button class="chat-close" id="chat-close">✕</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg bot">
+          <div class="msg-bubble">
+            Hello! I'm your virtual fashion expert. I can help refine your recommendations or answer any specific style
+            questions you have.
+            <br /><br />
+            Try asking: <b>"What color suits me best?"</b> or <b>"I want something more green."</b>
+          </div>
+          <div class="msg-time">Just now</div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Type your suggestion..." autocomplete="off">
+        <button id="chat-send" class="chat-send-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

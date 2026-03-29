@@ -22,7 +22,11 @@ const RULES = {
   occasion: {
     Wedding: { fabric: 'silk, brocade, embroidered textures, velvet', vibe: 'opulent and regal' },
     Casual: { fabric: 'cotton, linen, light knits, chambray', vibe: 'comfortable and effortless' },
-    Office: { fabric: 'crisp cotton, fine wool, structured blends', vibe: 'clean, minimal, and polished' }
+    Office: { fabric: 'crisp cotton, fine wool, structured blends', vibe: 'clean, minimal, and polished' },
+    Party: { fabric: 'sequins, velvet, satin, bold synthetics', vibe: 'energetic and striking' },
+    Date: { fabric: 'soft silk, lace, fine wool, cashmere', vibe: 'romantic and intimate' },
+    Travel: { fabric: 'merino wool, technical knits, denim, jersey', vibe: 'practical and stylish' },
+    Gym: { fabric: 'moisture-wicking mesh, spandex, compression knits', vibe: 'functional and athletic' }
   }
 };
 

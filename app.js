@@ -138,6 +138,14 @@ function cleanJSON(data) {
   return data;
 }
 
+function normalizeTitleCase(str) {
+  if (!str) return 'Casual';
+  // Handle space-separated words like "Date Night"
+  return str.split(/[\s_]+/)
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+            .join(' ');
+}
+
 /* ═══════════════════════════════════════════
    4. RULES ENGINE (Mini RAG)
    ═══════════════════════════════════════════ */
@@ -182,7 +190,8 @@ function getModernOutfit(userJSON, occasion, personality) {
   const bodyRule = RULES.body_type[userJSON.body_type];
   const skinRule = RULES.skin_tone[userJSON.skin_tone];
   const heightRule = RULES.height[userJSON.height];
-  const occasionRule = RULES.occasion[occasion];
+  const occKey = normalizeTitleCase(occasion);
+  const occasionRule = RULES.occasion[occKey] || RULES.occasion.Casual;
 
   let response = `OUTFIT:\n${data.outfit}\n\nCOLORS:\n${data.colors}\n\nFOOTWEAR:\n${data.footwear}\n\nACCESSORIES:\n${data.accessories}\n\nWHY IT WORKS:\nThis modern look follows current fashion-week trends while being perfectly calibrated for a ${userJSON.body_type} build with ${userJSON.skin_tone} skin. ${skinRule.best} — specifically ${skinRule.palette.slice(0, 3).join(', ')} — create a stunning visual harmony with the chosen palette. The ${bodyRule.fit} fit is ideal: ${bodyRule.favor}. ${heightRule} The ${personality.toLowerCase()} personality is channelled through every element. The ${occasionRule.vibe} vibe of ${occasion.toLowerCase()} dressing is achieved using ${occasionRule.fabric}. Every piece is intentional and wearable.`;
   return variateLook(response);
@@ -477,7 +486,7 @@ generateBtn.addEventListener('click', async () => {
     const filters = {
       gender: genderSel.value,
       age_group: ageSel.value,
-      occasion: occasionSel.value,
+      occasion: normalizeTitleCase(occasionSel.value),
       style: styleSel.value,
       season: seasonSel.value,
       weather: weatherSel.value,
@@ -491,7 +500,7 @@ generateBtn.addEventListener('click', async () => {
     let outfit = null;
 
     try {
-      const res = await fetch('https://stylist-ai-1.onrender.com /recommend', {
+      const res = await fetch('https://stylist-ai-1.onrender.com/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filters)
